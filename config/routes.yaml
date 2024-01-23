@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+blog:
+    resource:
+        path: ../src/Post/UI/Http/Controller/
+        namespace: App\Post\UI\Http\Controller
+    type: attribute
