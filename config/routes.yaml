@@ -7,3 +7,7 @@ controllers:
 app_attributes:
     resource: ../src/Post/UI/Http/Controller/
     type: attribute
+
+auth:
+    resource: ../src/Auth/UI/Http/Controller/
+    type: attribute

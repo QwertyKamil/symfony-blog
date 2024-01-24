@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[ORM\Table(name: 'app_user')]
 class Author
 {
     #[ORM\Id]
@@ -19,18 +20,13 @@ class Author
     private Uuid $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $name;
-
-    #[ORM\Column(type: 'string', length: 255)]
     private string $email;
 
     public function __construct(
         Uuid $id,
-        string $name,
         string $email
     ) {
         $this->id = $id;
-        $this->name = $name;
         $this->email = $email;
     }
 
@@ -42,19 +38,6 @@ class Author
     public function setEmail(string $email): void
     {
         $this->email = $email;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
     }
 
     public function getId(): Uuid

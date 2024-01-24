@@ -26,6 +26,6 @@ class AuthorRepository extends ServiceEntityRepository implements AuthorReposito
 
     public function get(Uuid $authorUuid): Author
     {
-        return new Author($authorUuid, 'test', 'test@email.com');//$this->findOneBy(['id' => $authorUuid->toBinary()]);
+        return $this->findOneBy(['id' => $authorUuid->toBinary()]);
     }
 }

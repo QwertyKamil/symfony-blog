@@ -29,8 +29,8 @@ class Post
     #[ORM\Column(type: 'text')]
     private string $content;
 
-//    #[ORM\ManyToOne(targetEntity: Author::class)]
-//    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Author::class)]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     private Author $author;
 
     #[ORM\Column(type: 'datetime_immutable')]

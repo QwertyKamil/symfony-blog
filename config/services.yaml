@@ -24,3 +24,4 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Post\Domain\PostRepository: '@App\Post\Infrastructure\Persistence\Doctrine\PostRepository'
     App\Post\Domain\AuthorRepository: '@App\Post\Infrastructure\Persistence\Doctrine\AuthorRepository'
+    App\Auth\Domain\Repository\UserRepository: '@App\Post\Infrastructure\Persistence\Doctrine\UserRepository'
