@@ -6,6 +6,7 @@ namespace App\Post\Application\Handler;
 
 use App\Post\Domain\Event\PostCreated;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Mime\Email;
@@ -21,6 +22,11 @@ class PostCreatedSendEmail
     ) {
     }
 
+    /**
+     * @param PostCreated $postCreated
+     * @return void
+     * @throws TransportExceptionInterface
+     */
     public function handle(PostCreated $postCreated): void
     {
         $email = (new Email())
