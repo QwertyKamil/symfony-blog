@@ -48,7 +48,7 @@ class RestController extends AbstractController
     public function show(
         string $uuid,
         PostList $postList
-    ) {
+    ): JsonResponse {
         //TODO - add query inside repository
         $post = $this->repository->get(Uuid::fromString($uuid));
 

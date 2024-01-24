@@ -24,10 +24,6 @@ class CreateNewPostHandler
     ) {
     }
 
-    /**
-     * @param CreateNewPost $command
-     * @return void
-     */
     public function handle(CreateNewPost $command): void
     {
         $postDto = $command->post;
