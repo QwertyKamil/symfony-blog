@@ -6,7 +6,7 @@ namespace App\Post\UI\Http\Controller;
 
 use App\Post\Application\Command\CreateNewPost;
 use App\Post\Application\Dto\PostDTO;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use App\Post\Domain\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +15,14 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/api/v1', name: 'api_')]
 class RestController extends AbstractController
 {
     public function __construct(
-        private readonly MessageBusInterface $bus
+        private readonly MessageBusInterface $bus,
+        private readonly PostRepository $repository
     ) {
     }
 
@@ -41,6 +43,19 @@ class RestController extends AbstractController
         return $this->json([
             'message' => 'Post created successfully'
         ], Response::HTTP_ACCEPTED);
+    }
+
+    #[Route('/posts/{uuid}', name: 'post-get', methods: ['GET'])]
+    public function show(
+        string $uuid
+    ) {
+        $post = $this->repository->get(Uuid::fromString($uuid));
+        return $this->json([
+            'title' => $post->getTitle(),
+            'content' => $post->getContent(),
+            'author_email' => $post->getAuthor()?->getEmail(),
+            'image'=> $post->getImage(),
+        ]);
     }
 
     /**

@@ -90,9 +90,9 @@ class Post
         $this->content = $content;
     }
 
-    public function getAuthor(): Author
+    public function getAuthor(): ?Author
     {
-        return $this->author;
+        return $this->author ?? null;
     }
 
     public function setAuthor(Author $author): void
@@ -127,5 +127,15 @@ class Post
     public function setUpdatedAt(): void
     {
         $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
     }
 }
