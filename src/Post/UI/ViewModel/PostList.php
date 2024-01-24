@@ -6,6 +6,7 @@ namespace App\Post\UI\ViewModel;
 
 use App\Post\Domain\Entity\Post;
 use App\Post\Infrastructure\Persistence\Doctrine\PostRepository;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PostList
@@ -17,7 +18,7 @@ class PostList
     }
 
     /**
-     * @param Post[] $posts
+     * @param array $posts
      * @param int $page
      * @param int $limit
      * @return array
@@ -32,24 +33,7 @@ class PostList
         return [
             'items' => array_map(
                 function ($post) {
-                    return [
-                        'title' => $post->getTitle(),
-                        'content' => $post->getContent(),
-                        'author' => [
-                            'email' => $post->getAuthor()?->getEmail(),
-                        ],
-                        'image' => $post->getImage(),
-                        'createdAt' => $post->getCreatedAt()->format('Y-m-d H:i:s'),
-                        'updatedAt' => $post->getUpdatedAt()->format('Y-m-d H:i:s'),
-                        'links' => [
-                            'self' => [
-                                'href' => $this->urlGenerator->generate(
-                                    'api_post_get',
-                                    ['uuid' => $post->getId()]
-                                )
-                            ]
-                        ]
-                    ];
+                    return $this->getPost($post);
                 },
                 $posts
             ),
@@ -74,7 +58,15 @@ class PostList
         ];
     }
 
-    public function getPost(Post $post)
+    #[ArrayShape([
+        'title' => "string",
+        'content' => "string",
+        'author' => "null[]",
+        'image' => "string",
+        'createdAt' => "string",
+        'updatedAt' => "string",
+        'links' => "array[]"
+    ])] public function getPost(Post $post): array
     {
         return [
             'title' => $post->getTitle(),
