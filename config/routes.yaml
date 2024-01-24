@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+app_attributes:
+    resource: ../src/Post/UI/Http/Controller/
+    type: attribute
+
+auth:
+    resource: ../src/Auth/UI/Http/Controller/
+    type: attribute
