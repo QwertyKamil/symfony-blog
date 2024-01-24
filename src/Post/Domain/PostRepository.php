@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Post\Domain;
 
-interface PostRepositoryInterface
+use App\Post\Domain\Entity\Post;
+use Symfony\Component\Uid\Uuid;
+
+interface PostRepository
 {
     /**
      * @param Post $post
@@ -13,10 +16,10 @@ interface PostRepositoryInterface
     public function save(Post $post): void;
 
     /**
-     * @param PostId $postId
+     * @param Uuid $postUuid
      * @return Post
      */
-    public function get(PostId $postId): Post;
+    public function get(Uuid $postUuid): Post;
 
     /**
      * @param Post $post
@@ -25,10 +28,8 @@ interface PostRepositoryInterface
     public function delete(Post $post): void;
 
     /**
-     * @param PostId $postId
+     * @param Uuid $postUuid
      * @return void
      */
-    public function deleteById(PostId $postId): void;
-
-    public function find($id, $lockMode = null, $lockVersion = null);
+    public function deleteById(Uuid $postUuid): void;
 }

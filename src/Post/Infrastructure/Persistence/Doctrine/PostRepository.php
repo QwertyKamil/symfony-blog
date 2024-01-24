@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Post\Infrastructure\Persistence\Doctrine;
 
-use App\Post\Domain\Post;
-use App\Post\Domain\PostId;
-use App\Post\Domain\PostRepositoryInterface;
+use App\Post\Domain\Entity\Post;
+use App\Post\Domain\PostRepository as PostRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
  * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method int       count(array $criteria)
  */
 class PostRepository extends ServiceEntityRepository implements PostRepositoryInterface
 {
@@ -30,11 +31,9 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         $entityManager->flush();
     }
 
-    public function get(PostId $postId): Post
+    public function get(Uuid $postUuid): Post
     {
-        return $this->findOneBy(
-            ['uuid' => $postId]
-        );
+        return $this->findOneBy(['id' => $postUuid->toBinary()]);
     }
 
     public function delete(Post $post): void
@@ -44,14 +43,14 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         $entityManager->flush();
     }
 
-    public function deleteById(PostId $postId): void
+    public function deleteById(Uuid $postUuid): void
     {
         $entityManager = $this->getEntityManager();
         $entityManager->createQuery(
             'DELETE FROM App\Post\Domain\Post p WHERE p.uuid = :uuid'
         )->setParameter(
             'uuid',
-            $postId
+            $postUuid->toBinary()
         )->execute();
     }
 }

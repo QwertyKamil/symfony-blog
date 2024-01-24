@@ -22,4 +22,5 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Post\Domain\PostRepositoryInterface: '@App\Post\Infrastructure\Persistence\Doctrine\PostRepository'
+    App\Post\Domain\PostRepository: '@App\Post\Infrastructure\Persistence\Doctrine\PostRepository'
+    App\Post\Domain\AuthorRepository: '@App\Post\Infrastructure\Persistence\Doctrine\AuthorRepository'
