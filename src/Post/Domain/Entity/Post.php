@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
@@ -107,9 +108,10 @@ class Post
     /**
      * @throws \Exception
      */
-    public function setCreatedAt(string $createdAt): void
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
     {
-        $this->createdAt = new DateTimeImmutable($createdAt);
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getUpdatedAt(): DateTimeImmutable
@@ -120,8 +122,10 @@ class Post
     /**
      * @throws \Exception
      */
-    public function setUpdatedAt(string $updatedAt): void
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): void
     {
-        $this->updatedAt = new DateTimeImmutable($updatedAt);
+        $this->updatedAt = new DateTimeImmutable();
     }
 }
