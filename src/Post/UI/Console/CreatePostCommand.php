@@ -6,6 +6,7 @@ namespace App\Post\UI\Console;
 
 use App\Post\Application\Command\CreateNewPost;
 use App\Post\Application\Dto\PostDTO;
+//use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

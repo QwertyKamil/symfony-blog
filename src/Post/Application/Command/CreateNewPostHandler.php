@@ -6,8 +6,10 @@ namespace App\Post\Application\Command;
 
 use App\Post\Application\Factory\PostFactory;
 use App\Post\Domain\AuthorRepository;
+use App\Post\Domain\Event\PostCreated;
 use App\Post\Domain\PostRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler(
     method: 'handle'
@@ -18,7 +20,7 @@ class CreateNewPostHandler
         private readonly AuthorRepository $authorRepository,
         private readonly PostRepository $postRepository,
         private readonly PostFactory $postFactory,
-        private readonly array $allowedTags = ['<ul>', '<li>', '<ol>', '<p>', '<strong>']
+        private readonly MessageBusInterface $bus
     ) {
     }
 
@@ -28,7 +30,7 @@ class CreateNewPostHandler
      */
     public function handle(CreateNewPost $command): void
     {
-        $postDto = $command->getPost();
+        $postDto = $command->post;
 
         $author = $this->authorRepository->get($postDto->getAuthorUuid());
         $image = $postDto->getImage();
@@ -37,12 +39,14 @@ class CreateNewPostHandler
         $imageUrl = 'https://via.placeholder.com/150';
 
         $post = $this->postFactory->create(
-            strip_tags($postDto->getTitle(), []),
-            strip_tags($postDto->getContent(), $this->allowedTags),
+            $postDto->getTitle(),
+            $postDto->getContent(),
             $author,
             $imageUrl
         );
 
         $this->postRepository->save($post);
+
+        $this->bus->dispatch(new PostCreated($author->getEmail(), $post->getTitle()));
     }
 }

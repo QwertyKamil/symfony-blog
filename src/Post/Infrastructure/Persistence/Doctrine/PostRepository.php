@@ -35,7 +35,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
 
     public function get(Uuid $postUuid): Post
     {
-        return $this->findOneBy(['id' => $postUuid->toBinary()]);
+        return $this->find($postUuid->toBinary());
     }
 
     public function delete(Post $post): void
@@ -49,7 +49,7 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
     {
         $entityManager = $this->getEntityManager();
         $entityManager->createQuery(
-            'DELETE FROM App\Post\Domain\Post p WHERE p.uuid = :uuid'
+            sprintf('DELETE FROM %s p WHERE p.uuid = :uuid', Post::class)
         )->setParameter(
             'uuid',
             $postUuid->toBinary()
