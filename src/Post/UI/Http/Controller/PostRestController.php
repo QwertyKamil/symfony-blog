@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
 use Symfony\Component\Uid\Uuid;
 
 #[Route('/api/v1', name: 'api_')]
-class RestController extends AbstractController
+class PostRestController extends AbstractController
 {
     public function __construct(
         private readonly MessageBusInterface $bus,
