@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Post\UI\Http\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +19,7 @@ class PostType extends AbstractType
         $builder->add('title', TextType::class)
             ->add('content', TextareaType::class)
             ->add('authorUuid', UuidType::class)
+            ->add('image', FileType::class)
             ->add('save', SubmitType::class);
     }
 }

@@ -26,15 +26,15 @@ class PostDTO
     #[Assert\Uuid(groups: ["create", "update"])]
     private Uuid $authorUuid;
 
-//    #[Groups(["default", "create", "update"])]
-//    #[Assert\NotBlank(groups: ["default", "create"])]
-//    #[Assert\File(
-//        maxSize: '1024k',
-//        binaryFormat: true,
-//        extensions: ['jpg', 'png'],
-//        extensionsMessage: 'Please upload a valid JPG image'
-//    )]
-    protected ?File $image;
+    #[Groups(["default", "create", "update"])]
+    #[Assert\NotBlank(groups: ["default", "create"])]
+    #[Assert\File(
+        maxSize: '1024k',
+        binaryFormat: true,
+        extensions: ['jpg'],
+        extensionsMessage: 'Please upload a valid JPG image'
+    )]
+    protected File $image;
 
     /**
      * @param string $title
@@ -46,7 +46,7 @@ class PostDTO
         string $title,
         string $content,
         Uuid $authorUuid,
-        ?File $image = null
+        File $image = null
     ) {
         $this->title = $title;
         $this->content = $content;
